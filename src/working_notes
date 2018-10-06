@@ -126,6 +126,15 @@ User.register_user('woz', 'test123', 'iwoz', 'admin')
 User.register_user('choma', 'test123', 'iwoz', 'super_user')
 
 
+#### add a new s no #####
+
+
+from src.models.expense.expense import Expense
+from src.common.database import Database
+Database.initialize()
+
+s_list = Expense.set_sno()
+
 
 
 

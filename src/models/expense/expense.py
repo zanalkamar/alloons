@@ -2,6 +2,7 @@ import src.models.expense.constants as ExpenseConstants
 from src.common.database import Database
 import uuid
 
+
 class Expense(object):
 
     def __init__(self, date, category, item, remarks, amount, sn=None, _id=None):
@@ -9,7 +10,7 @@ class Expense(object):
         self.category = category
         self.item = item
         self.remarks = remarks
-        self.sn = sn
+        self.sn = sn if sn else Expense.set_sno()
         self.amount = amount
         self._id = _id if _id else Expense.create_id()
 
@@ -34,6 +35,34 @@ class Expense(object):
     @classmethod
     def get_all_expense(cls):
         return [cls(**elem) for elem in Database.find(ExpenseConstants.COLLECTION, {})]
+
+    @staticmethod
+    def set_sno():
+        """
+        to set the Sno:, checks the last s no and returns the next
+        :return:
+        """
+        all_expense = Expense.get_all_expense()
+        if all_expense:
+            s_list = [s.sn for s in all_expense]
+            s_no = max(s_list) + 1
+        else:
+            # this is for the first entry
+            s_no = 1000
+        return s_no
+
+    @classmethod
+    def get_exp_by_id(cls, _id):
+        return cls(**Database.find_one(ExpenseConstants.COLLECTION, {'_id': _id}))
+
+    @staticmethod
+    def del_expense_by_id(_id):
+        expense = Expense.get_exp_by_id(_id)
+        expense.del_expense()
+
+    def del_expense(self):
+        Database.remove(ExpenseConstants.COLLECTION, {'_id': self._id})
+
 
 
 

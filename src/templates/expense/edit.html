@@ -1,0 +1,56 @@
+{% extends 'base.html'%}
+{% block content %}
+<h2>Expense Edit</h2>
+
+<div class="jumbotron" style="width: 80%; margin: auto;">
+    {% if error_msg %}
+    <p class="text-danger">ERROR EMSSAGE</p>
+    {% endif %}
+
+
+    <form class="form-horizontal" action="{{ url_for('expense.expense_edit', _id=expense._id)}}" method="post">
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="date">Date:</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" name="date" id="date" value="{{ expense.date }}" required>
+            </div>
+        </div>
+
+
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="item">Item:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="item" id="item" placeholder="item" value="{{ expense.item }}" required>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="remarks">Remarks:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="remarks" id="remarks" value="{{ expense.remarks }}" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="amount">Amount:</label>
+            <div class="col-sm-10">
+                <input type="number" step="0.01" class="form-control" name="amount" id="amount" value="{{ expense.amount }}" required>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div>
+                <a class="btn btn-danger" href="{{ url_for('expense.del_expense', _id = expense._id)}}" >Del Exp</a>
+            </div>
+        </div>
+    </form>
+
+
+</div>
+{% endblock %}
