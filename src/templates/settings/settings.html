@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% block content %}
-{% if user and user.allowed('super_user') %}
+
 <div class="jumbotron">
     <h1>Settings</h1>
 </div>
@@ -10,5 +10,5 @@
         <li><a href="#">Database</a></li>
     </ul>
 </div>
-{% endif %}
+
 {% endblock %}

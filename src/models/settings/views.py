@@ -7,7 +7,8 @@ settings_blueprint = Blueprint('settings', __name__)
 
 @settings_blueprint.route('/home', methods={'GET'})
 def settings():
-    user = User.find_by_email(session.get('email'))
+    # user = User.find_by_email(session.get('email'))
+    user = None
     return render_template('settings/settings.html', user=user)
 
 

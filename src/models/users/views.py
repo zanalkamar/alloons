@@ -43,9 +43,10 @@ def user_home():
 
 @user_blueprint.route('/users', methods={'GET', 'POST'})
 def users():
-    if not User.check_access_email(session.get('email'), 'super_user'):
-        return render_template('users/login.html')
-    user = User.find_by_email(session.get('email'))
+    # if not User.check_access_email(session.get('email'), 'super_user'):
+    #     return render_template('users/login.html')
+    # user = User.find_by_email(session.get('email'))
+    user = None
     all_user_obj = User.get_all_users()
     # print('User is {}'.format(user.name))
     return render_template('users/users.html', user_objs=all_user_obj, error_msg=None, user=user)
@@ -53,8 +54,8 @@ def users():
 
 @user_blueprint.route('/add', methods={'GET', 'POST'})
 def add_user():
-    if not User.check_access_email(session.get('email'), 'super_user'):
-        return render_template('users/login.html')
+    # if not User.check_access_email(session.get('email'), 'super_user'):
+    #     return render_template('users/login.html')
     error_msg = None
     if request.method == 'POST':
         email = request.form['email']
@@ -73,8 +74,8 @@ def add_user():
 
 @user_blueprint.route('/edit/<string:_id>', methods={'GET', 'POST'})
 def edit_user(_id):
-    if not User.check_access_email(session.get('email'), 'super_user'):
-        return render_template('users/login.html')
+    # if not User.check_access_email(session.get('email'), 'super_user'):
+    #     return render_template('users/login.html')
     user = User.find_by_email(session.get('email'))
     if request.method == 'GET':
         user_obj = User.find_by_id(_id)
@@ -95,7 +96,7 @@ def edit_user(_id):
 
 @user_blueprint.route('/delete/<string:_id>', methods={'GET'})
 def del_user(_id):
-    if not User.check_access_email(session.get('email'), 'super_user'):
-        return render_template('users/login.html')
+    # if not User.check_access_email(session.get('email'), 'super_user'):
+    #     return render_template('users/login.html')
     User.del_user_by_id(_id)
     return redirect(url_for('users.users'))
