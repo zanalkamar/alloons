@@ -113,7 +113,8 @@ sudo setenforce 0
 
 ####### User Create Manual #####
 
-
+export PYTHONPATH=/var/www/html/alloons/
+python3.5
 from src.common.database import Database
 from src.models.users.users import User
 Database.initialize()

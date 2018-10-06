@@ -194,9 +194,8 @@
                 <li><a href="{{ url_for('expense.expense') }}">Expense</a></li>
 
 
-                {% if user and user.allowed('super_user')%}
-                <li><a href="#">Settings</a></li>
-                {% endif %}
+                <li><a href="{{ url_for('settings.settings') }}">Settings</a></li>
+
 
             </ul>
             {% if not session['email']%}

@@ -4,6 +4,8 @@ from src.common.database import Database
 from src.models.admin.views import admin_blueprint
 from src.models.expense.views import expense_blueprint
 from src.models.users.views import user_blueprint
+from src.models.settings.views import settings_blueprint
+
 
 app = Flask(__name__)
 app.config.DEBUG = True
@@ -26,4 +28,6 @@ def home():
 app.register_blueprint(admin_blueprint, url_prefix="/admin")
 app.register_blueprint(expense_blueprint, url_prefix="/expense")
 app.register_blueprint(user_blueprint, url_prefix="/users")
+app.register_blueprint(settings_blueprint, url_prefix="/settings")
+
 

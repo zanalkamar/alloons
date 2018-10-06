@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if user and user.allowed('super_user') %}
+<div class="jumbotron">
+    <h1>Settings</h1>
+</div>
+<div class="collapse navbar-collapse">
+    <ul class="nav navbar-nav">
+        <li><a href="{{ url_for('users.users')}}">Users</a></li>
+        <li><a href="#">Database</a></li>
+    </ul>
+</div>
+{% endif %}
+{% endblock %}
