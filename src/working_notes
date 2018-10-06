@@ -1,0 +1,39 @@
+import csv
+with open('/Users/zameer/PycharmProjects/alloons/src/files/order.csv', 'rb') as csvfile:
+    for row in csvfile:
+        print ', '.join(row)
+
+
+### convert time string to datetime object ####
+
+import datetime
+t = '2018-09-15 16:20:20 +0530'
+date_ext = t[0:10]
+date_obj = datetime.datetime.strptime(date_ext, '%Y-%m-%d')
+
+
+#### readin the csv as dictionaries #####
+
+import csv
+with open('/Users/zameer/PycharmProjects/alloons/src/files/order.csv') as csvfile:
+    reader = csv.DictReader(csvfile)
+    for row in reader:
+        print(row['Email'])
+
+
+##### script to get a sales by order number ####
+
+from src.models.sales.sales import Sales
+from src.common.database import Database
+Database.initialize()
+
+sales = Sales.get_sales_by_num('2696')
+print(sales['subtotal'])
+
+
+
+
+
+
+
+

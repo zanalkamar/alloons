@@ -1,0 +1,13 @@
+pymongo==3.4.0
+cryptography==2.2.2
+python-dateutil==2.6.1
+Flask==0.12.1
+pytz==2017.2
+python-docx==0.8.6
+asyncio==3.4.3
+schedule==0.5.0
+requests==2.19.1
+passlib==1.7.1
+pip==9.0.3
+openpyxl==2.5.5
+

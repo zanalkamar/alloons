@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--<meta http-equiv="refresh" content="60"/>-->
+    <title>hyn_syt</title>
+    {% include 'html_dependencies.html'%}
+    <style>
+#fault_box{
+    width: 100%;
+    }
+#first_box{
+    width: 100%;
+    }
+#message_limit{
+    max-width: 350px;
+    }
+#message_limit_snooze{
+    max-width: 350px;
+    }
+#message_limit2{
+    max-width: 350px;
+    }
+
+#each_issue{
+    outline-style: solid;
+    outline-width: 1px;
+    }
+#each_issue_snooze{
+    outline-style: solid;
+    outline-width: 1px;
+    }
+#issue_with_info{
+    outline-style: solid;
+    outline-width: 1px;
+    }
+#fault_heading{
+    outline-style: solid;
+    }
+
+#login_box{
+    max-width: 350px;
+    }
+
+#submit_button{
+    margin-top: 20px;
+    }
+
+#reach_reports {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    white-space: nowrap;
+    margin: 20px;
+}
+
+#reach_reports td, #reach_reports th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#reach_reports tr:nth-child(even){background-color: #f2f2f2;}
+
+#reach_reports tr:hover {background-color: #ddd;}
+
+#reach_reports th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #6E7674;
+    color: white;
+    }
+
+#reach_reports_duration {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    white-space: nowrap;
+    margin: 20px;
+}
+
+#reach_reports_duration td, #reach_reports_duration th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#reach_reports_duration tr:nth-child(even){background-color: #f2f2f2;}
+
+#reach_reports_duration tr:hover {background-color: #ddd;}
+
+#reach_reports_duration th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #6E7674;
+    color: white;
+    }
+
+#tracemap {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+#tracemap td, #tracemap th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#tracemap tr:nth-child(even){background-color: #f2f2f2;}
+
+#tracemap tr:hover {background-color: #ddd;}
+
+#tracemap th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+#policy_query_input {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 70%;
+    margin: auto;
+}
+
+#policy_query_input td, #policy_query_input th {
+    border: 1px solid #ddd;
+    padding: 8px;
+
+
+}
+
+
+
+#policy_query_input th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+#tracemap_input {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 50%;
+    margin: auto;
+}
+
+#tracemap_input td, #tracemap_input th {
+    border: 1px solid #ddd;
+    padding: 8px;
+
+
+}
+
+#tracemap_input th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #4CAF50;
+    color: white;
+}
+
+
+
+
+
+
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapsed" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">Button
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            {% if not session['email'] %}
+            <a class="navbar-brand" href="/">Alloons</a>
+            {% else %}
+            <a class="navbar-brand" href="#">Alloons</a>
+            {% endif %}
+        </div>
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                {% if user and user.allowed('user') %}
+                <li><a href="#">Device</a></li>
+                {% endif %}
+
+                {% if user and user.allowed('guest') %}
+                <li><a href="#">Reach Monitor</a></li>
+                {% endif %}
+
+                {% if user and user.allowed('user')%}
+                <li><a href="#">Reports</a></li>
+                <li><a href = "#">TraceMap</a></li>
+                <li><a href = "#">Policy Test</a></li>
+                <li><a href="#">Site Search</a></li>
+                {% if user and user.allowed('super_user')%}
+                <li><a href="#">Settings</a></li>
+                {% endif %}
+                {% endif %}
+
+            </ul>
+            {% if not session['email']%}
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Log in </a></li>
+            </ul>
+            {% else %}
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> Log out </a></li>
+            </ul>
+            {% endif %}
+
+        </div>
+    </div>
+</nav>
+<div class="content container" id="first_box">
+    {% block content%}
+
+    {% endblock %}
+</div>
+</body>
