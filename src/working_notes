@@ -31,6 +31,99 @@ sales = Sales.get_sales_by_num('2696')
 print(sales['subtotal'])
 
 
+###### Server Deployment Notes #####
+
+
+sudo mkdir /var/www/html/alloons
+sudo chown iwoz:iwoz /var/www/html/alloons/
+
+cd /var/www/html/alloons/
+
+
+
+ssh-keygen
+cat ~/.ssh/id_rsa.pub
+
+
+
+git clone git@github.com:ziwoz/alloons.git .
+
+
+
+git@github.com:ziwoz/alloons.git
+
+
+
+cd /var/www/html/alloons
+virtualenv --python=python3.5 venv
+./venv/bin/pip install -r requirements.txt
+./venv/bin/pip install uwsgi
+
+
+sudo vi /etc/init/uwsgi_alloons.conf
+
+
+
+
+####the init folder is not present#####if this is not working, put the file inside init.d/
+###the init is no longer available in centos7, new is systemd####
+https://www.digitalocean.com/community/tutorials/how-to-serve-django-applications-with-uwsgi-and-nginx-on-centos-7#setting-up-the-uwsgi-application-server
+
+
+description "uWSGI_alloons"
+start on runlevel [2345]
+stop on runlevel [06]
+respawn
+env UWSGI_ALIVE=/var/www/html/alloons/venv/bin/uwsgi
+env LOGTO_ALIVE=/var/www/html/alloons/log/emperor.log
+exec $UWSGI_ALIVE --master --emperor /var/www/html/alloons/uwsgi.ini --die-on-term --uid iwoz --gid iwoz --logto $LOGTO_ALIVE
+
+cd /var/www/html/alloons/
+vi uwsgi.ini
+
+[uwsgi]
+#application's base folder
+base = /var/www/html/alloons
+#python module to import
+app = src.app
+module = %(app)
+home = %(base)/venv
+pythonpath = %(base)
+#socket file's location
+socket = /var/www/html/alloons/socket.sock
+#permissions for the socket file
+chmod-socket = 777
+#add more processes
+processes = 8
+#add more threads
+threads = 8
+#kill worker if timeout > 15 seconds
+harakiri = 15
+#the variable that holds a flask application inside the module imported at line 6
+callable = app
+#location of log files
+logto = /var/www/html/alloons/log/%n.log
+
+sudo service nginx start
+sudo stop uwsgi_alloons
+sudo start uwsgi_alloons
+sudo setenforce 0
+
+
+
+####### User Create Manual #####
+
+
+from src.common.database import Database
+from src.models.users.users import User
+Database.initialize()
+
+User.register_user('zameer', 'test123', 'choma', 'admin')
+User.register_user('bob', 'test123', 'boby', 'guest')
+User.register_user('tony', 'test123', 'toner', 'user')
+User.register_user('woz', 'test123', 'iwoz', 'admin')
+User.register_user('choma', 'test123', 'iwoz', 'super_user')
+
 
 
 

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, send_file, redirect, url_for, session, make_response
-from src.models.user.user import User
+from src.models.users.users import User
 from src.models.expense.expense import Expense
 
 
