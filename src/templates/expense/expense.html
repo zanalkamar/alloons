@@ -79,7 +79,9 @@
 
     </div>
 
-    <table class="table table-striped">
+    <input type="text" id="expSearchInput" onkeyup="expSearchFunction()" placeholder="Search.." title="Type in a name">
+
+    <table class="table table-striped" id="expense_table">
         <thead></thead>
         <td>S No</td>
         <td>Exp Id</td>
@@ -101,8 +103,28 @@
         </tbody>
     </table>
 
+<script>
+function expSearchFunction() {
+  var input, filter, table, tr, td, i;
+  input = document.getElementById("expSearchInput");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("expense_table");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }
+  }
+}
+</script>
 
 </div>
 
 
 {% endblock %}
+
