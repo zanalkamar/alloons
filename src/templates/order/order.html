@@ -1,0 +1,223 @@
+{% extends 'base.html'%}
+{% block content %}
+
+{% if error_msg %}
+<p class="text-danger">ERROR EMSSAGE</p>
+{% endif %}
+
+<div class="jumbotron">
+    <h2>Order</h2>
+
+    <button style="margin: 10px;" type="button" class="btn btn-info" data-toggle="collapse" data-target="#add">Add New</button>
+
+    <div id="add" class="jumbotron collapse" style="width: 80%; margin-top: 10px; margin: auto; ">
+        <form class="form-horizontal" action="{{ url_for('order.order')}}" method="post">
+            <div class="form-group">
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="ord_date">Date:</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" name="ord_date" id="ord_date" placeholder="DD/MM/YYYY" required>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="pid">Product</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="pid" id="pid" placeholder="Product ID" required>
+
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="prod_descr">Prod Descr.</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="prod_descr" id="prod_descr" placeholder="Product Description" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="size">Size</label>
+                <div class="col-sm-10">
+                    <select class="form-control" id="size" name="size">
+                        <option value="s">Small</option>
+                        <option value="m">Medium</option>
+                        <option value="l">Large</option>
+                        <option value="xl">XL</option>
+                        <option value="xxl">XXL</option>
+                        <option value="xxxl">XXXL</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="prod_descr">SKU</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="sku" id="sku" placeholder="SKU" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="vendor">Vendor</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="vendor" id="vendor" placeholder="Vendor" required>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="qty">Quantity</label>
+                <div class="col-sm-10">
+                    <input type="number" class="form-control" name="qty" id="qty" placeholder="Quantity" required>
+                </div>
+            </div>
+
+
+
+            <div class="form-group">
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="u_price">Unit Price</label>
+                <div class="col-sm-10">
+                    <input type="number" step="0.01" class="form-control" name="u_price" id="u_price" placeholder="Unit Price" required>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="gst">GST</label>
+                <div class="col-sm-10">
+                    <input type="number" step="0.01" class="form-control" name="gst" id="gst" placeholder="GST" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="ship">Shipping Cost</label>
+                <div class="col-sm-10">
+                    <input type="number" step="0.01" class="form-control" name="ship" id="ship" placeholder="Shipping Cost" required>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="total">Total</label>
+                <div class="col-sm-10">
+                    <input type="number" step="0.01" class="form-control" name="total" id="total" placeholder="Total" required>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="rcv_date">Recived Date</label>
+                <div class="col-sm-10">
+                    <input type="date" class="form-control" name="rcv_date" id="rcv_date" placeholder="DD/MM/YYYY" required>
+                </div>
+            </div>
+
+
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+                    <button type="submit" class="btn btn-primary">ADD</button>
+                </div>
+            </div>
+        </form>
+
+    </div>
+
+    <input type="text" id="ordSearchInput" onkeyup="filterOrder()" placeholder="Search.." title="Type in a name">
+
+    <table class="table table-striped" id="order_table">
+        <thead></thead>
+        <th>S No</th>
+        <th>Order ID</th>
+        <th>Order Date</th>
+        <th>Product</th>
+        <th>Prod Descr</th>
+        <th>Size</th>
+        <th>Vendor</th>
+        <th>QTY</th>
+        <th>Unit Price</th>
+        <th>GST</th>
+        <th>Shipping</th>
+        <th>Total</th>
+        <th>Recv Date</th>
+        <tbody>
+        {% for order in orders|reverse %}
+        <tr class="default">
+            <td>{{ loop.revindex }}</td>
+            <td>{{ order.oid }}</td>
+            <td><a href="#" role="button">{{ order.ord_date }}</a></td>
+            <td>{{ order.pid }}</td>
+            <td>{{ order.prod_descr }}</td>
+            <td>{{ order.size }}</td>
+            <td>{{ order.vendor }}</td>
+            <td>{{ order.qty }}</td>
+            <td>{{ order.u_price }}</td>
+            <td>{{ order.gst }}</td>
+            <td>{{ order.ship }}</td>
+            <td>{{ order.total }}</td>
+            <td>{{ order.rcv_date }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <!--<script>-->
+    <!--function expSearchFunction() {-->
+    <!--var input, filter, table, tr, td, i;-->
+    <!--input = document.getElementById("expSearchInput");-->
+    <!--filter = input.value.toUpperCase();-->
+    <!--table = document.getElementById("expense_table");-->
+    <!--tr = table.getElementsByTagName("tr");-->
+    <!--for (i = 0; i < tr.length; i++) {-->
+    <!--td = tr[i].getElementsByTagName("td")[1];-->
+    <!--if (td) {-->
+    <!--if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {-->
+    <!--tr[i].style.display = "";-->
+    <!--} else {-->
+    <!--tr[i].style.display = "none";-->
+    <!--}-->
+    <!--}-->
+    <!--}-->
+    <!--}-->
+    <!--</script>-->
+
+    <script>
+
+    function filterOrder() {
+    var input, filter, table, tr, td, i, td1, td2;
+    input = document.getElementById("ordSearchInput");
+    filter = input.value.toUpperCase();
+    table = document.getElementById("order_table");
+    tr = table.getElementsByTagName("tr");
+
+    for (i = 0; i < tr.length; i++) {
+        td1 = tr[i].getElementsByTagName("td")[1];
+        td2 = tr[i].getElementsByTagName("td")[2];
+        td3 = tr[i].getElementsByTagName("td")[3];
+        if (td1)
+        {
+        if (td1.innerHTML.toUpperCase().indexOf(filter) > -1)
+            {
+            tr[i].style.display = "";
+            }
+
+        else if (td2.innerHTML.toUpperCase().indexOf(filter) > -1)
+            {
+            tr[i].style.display = "";
+            }
+
+        else if (td3.innerHTML.toUpperCase().indexOf(filter) > -1)
+            {
+            tr[i].style.display = "";
+            }
+
+        else
+            {
+            tr[i].style.display = "none";
+            }
+        }
+  }
+}
+</script>
+</div>
+
+
+{% endblock %}
+
