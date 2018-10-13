@@ -7,7 +7,7 @@ class Database(object):
     # use the below for docker with mongodb in the host
     # URI = "mongodb://172.17.0.1:27017"
     # use the below only on mac
-    # URI = "mongodb://host.docker.internal:27017" # git test
+    # URI = "mongodb://host.docker.internal:27017" # git test 13
     DATABASE = None
 
     @staticmethod
