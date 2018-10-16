@@ -22,8 +22,8 @@ def init_db():
 @app.route('/')
 def home():
     # return redirect(url_for('users.user_home'))
-    return render_template('home.html')
-    # return 'Helo Alloons'
+    # return render_template('home.html')
+    return redirect(url_for('users.user_home'))
 
 
 app.register_blueprint(admin_blueprint, url_prefix="/admin")

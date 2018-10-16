@@ -186,17 +186,22 @@
             {% if not session['email'] %}
             <a class="navbar-brand" href="/">Alloons</a>
             {% else %}
-            <a class="navbar-brand" href="#">Alloons</a>
+            <a class="navbar-brand" href="/">Alloons</a>
             {% endif %}
         </div>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav">
+                {% if user and user.allowed('admin') %}
                 <li><a href="{{ url_for('expense.expense') }}">Expense</a></li>
+                {% endif %}
+
+                {% if user and user.allowed('admin') %}
                 <li><a href="{{ url_for('order.order') }}">Orders</a></li>
+                {% endif %}
 
-
+                {% if user and user.allowed('admin') %}
                 <li><a href="{{ url_for('settings.settings') }}">Settings</a></li>
-
+                {% endif %}
 
             </ul>
             {% if not session['email']%}

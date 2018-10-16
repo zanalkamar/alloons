@@ -21,7 +21,7 @@
 
 
             <div class="form-group">
-                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="pid">Product</label>
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="pid">Product Name</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="pid" id="pid" placeholder="Product ID" required>
 
@@ -31,7 +31,7 @@
             <div class="form-group">
                 <label style="text-align: left; width:15%" class="control-label col-sm-2" for="prod_descr">Prod Descr.</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="prod_descr" id="prod_descr" placeholder="Product Description" required>
+                    <input type="text" class="form-control" name="prod_descr" id="prod_descr" placeholder="Product Description">
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
             </div>
 
             <div class="form-group">
-                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="prod_descr">SKU</label>
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="sku">SKU</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="sku" id="sku" placeholder="SKU" required>
                 </div>
@@ -106,7 +106,7 @@
             <div class="form-group">
                 <label style="text-align: left; width:15%" class="control-label col-sm-2" for="rcv_date">Recived Date</label>
                 <div class="col-sm-10">
-                    <input type="date" class="form-control" name="rcv_date" id="rcv_date" placeholder="DD/MM/YYYY" required>
+                    <input type="date" class="form-control" name="rcv_date" id="rcv_date" placeholder="DD/MM/YYYY">
                 </div>
             </div>
 
@@ -141,8 +141,8 @@
         {% for order in orders|reverse %}
         <tr class="default">
             <td>{{ loop.revindex }}</td>
-            <td>{{ order.oid }}</td>
-            <td><a href="#" role="button">{{ order.ord_date }}</a></td>
+            <td><a href="{{ url_for('order.order_edit', _id = order._id)}}" role="button">{{ order.oid }}</a></td>
+            <td>{{ order.ord_date }}</td>
             <td>{{ order.pid }}</td>
             <td>{{ order.prod_descr }}</td>
             <td>{{ order.size }}</td>
@@ -158,25 +158,6 @@
         </tbody>
     </table>
 
-    <!--<script>-->
-    <!--function expSearchFunction() {-->
-    <!--var input, filter, table, tr, td, i;-->
-    <!--input = document.getElementById("expSearchInput");-->
-    <!--filter = input.value.toUpperCase();-->
-    <!--table = document.getElementById("expense_table");-->
-    <!--tr = table.getElementsByTagName("tr");-->
-    <!--for (i = 0; i < tr.length; i++) {-->
-    <!--td = tr[i].getElementsByTagName("td")[1];-->
-    <!--if (td) {-->
-    <!--if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {-->
-    <!--tr[i].style.display = "";-->
-    <!--} else {-->
-    <!--tr[i].style.display = "none";-->
-    <!--}-->
-    <!--}-->
-    <!--}-->
-    <!--}-->
-    <!--</script>-->
 
     <script>
 

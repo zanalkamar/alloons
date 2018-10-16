@@ -1,6 +1,7 @@
 import src.models.expense.constants as ExpenseConstants
 from src.common.database import Database
 import uuid
+from src.models.users.users import User
 
 
 class Expense(object):
@@ -11,7 +12,7 @@ class Expense(object):
         self.item = item
         self.remarks = remarks
         self.sn = sn if sn else Expense.set_sno()
-        self.amount = amount
+        self.amount = float(amount)
         self._id = _id if _id else Expense.create_id()
 
     def json(self):
@@ -62,6 +63,11 @@ class Expense(object):
 
     def del_expense(self):
         Database.remove(ExpenseConstants.COLLECTION, {'_id': self._id})
+
+    @staticmethod
+    def check_user_access(email, access_level):
+        if email:
+            return User.check_access_email(email, access_level)
 
 
 
