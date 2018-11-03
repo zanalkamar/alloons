@@ -13,48 +13,27 @@
     <div id="add" class="jumbotron collapse" style="width: 80%; margin-top: 10px; margin: auto; ">
         <form class="form-horizontal" action="{{ url_for('order.order')}}" method="post">
             <div class="form-group">
-                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="ord_date">Date:</label>
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="ord_date">Order Date</label>
                 <div class="col-sm-10">
                     <input type="date" class="form-control" name="ord_date" id="ord_date" placeholder="DD/MM/YYYY" required>
                 </div>
             </div>
 
-
             <div class="form-group">
-                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="pid">Product Name</label>
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="name">Product Name</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="pid" id="pid" placeholder="Product ID" required>
+                    <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
 
                 </div>
             </div>
 
             <div class="form-group">
-                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="prod_descr">Prod Descr.</label>
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="descr">Prod Descr.</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control" name="prod_descr" id="prod_descr" placeholder="Product Description">
+                    <input type="text" class="form-control" name="descr" id="descr" placeholder="Order Description">
                 </div>
             </div>
 
-            <div class="form-group">
-                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="size">Size</label>
-                <div class="col-sm-10">
-                    <select class="form-control" id="size" name="size">
-                        <option value="s">Small</option>
-                        <option value="m">Medium</option>
-                        <option value="l">Large</option>
-                        <option value="xl">XL</option>
-                        <option value="xxl">XXL</option>
-                        <option value="xxxl">XXXL</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="sku">SKU</label>
-                <div class="col-sm-10">
-                    <input type="text" class="form-control" name="sku" id="sku" placeholder="SKU" required>
-                </div>
-            </div>
 
             <div class="form-group">
                 <label style="text-align: left; width:15%" class="control-label col-sm-2" for="vendor">Vendor</label>
@@ -63,22 +42,6 @@
                 </div>
             </div>
 
-
-            <div class="form-group">
-                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="qty">Quantity</label>
-                <div class="col-sm-10">
-                    <input type="number" class="form-control" name="qty" id="qty" placeholder="Quantity" required>
-                </div>
-            </div>
-
-
-
-            <div class="form-group">
-                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="u_price">Unit Price</label>
-                <div class="col-sm-10">
-                    <input type="number" step="0.01" class="form-control" name="u_price" id="u_price" placeholder="Unit Price" required>
-                </div>
-            </div>
 
 
             <div class="form-group">
@@ -114,6 +77,7 @@
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
                     <button type="submit" class="btn btn-primary">ADD</button>
+
                 </div>
             </div>
         </form>
@@ -128,31 +92,27 @@
         <th>Order ID</th>
         <th>Order Date</th>
         <th>Product</th>
-        <th>Prod Descr</th>
-        <th>Size</th>
+        <th>Ord Descr</th>
         <th>Vendor</th>
-        <th>QTY</th>
-        <th>Unit Price</th>
         <th>GST</th>
         <th>Shipping</th>
         <th>Total</th>
         <th>Recv Date</th>
+        <th>Items</th>
         <tbody>
         {% for order in orders|reverse %}
         <tr class="default">
             <td>{{ loop.revindex }}</td>
             <td><a href="{{ url_for('order.order_edit', _id = order._id)}}" role="button">{{ order.oid }}</a></td>
             <td>{{ order.ord_date }}</td>
-            <td>{{ order.pid }}</td>
-            <td>{{ order.prod_descr }}</td>
-            <td>{{ order.size }}</td>
+            <td>{{ order.name }}</td>
+            <td>{{ order.descr }}</td>
             <td>{{ order.vendor }}</td>
-            <td>{{ order.qty }}</td>
-            <td>{{ order.u_price }}</td>
             <td>{{ order.gst }}</td>
             <td>{{ order.ship }}</td>
             <td>{{ order.total }}</td>
             <td>{{ order.rcv_date }}</td>
+            <td><a class="btn btn-default" href="{{ url_for('order.add_item', _id = order._id)}}" role="button">Add Item</a></td>
         </tr>
         {% endfor %}
         </tbody>

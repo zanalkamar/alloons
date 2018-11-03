@@ -6,38 +6,32 @@ from src.models.users.users import User
 
 class Order(object):
 
-    def __init__(self, ord_date, pid, prod_descr, size, vendor, qty, u_price, gst, ship, total, rcv_date, sku, oid=None, _id=None):
+    def __init__(self, ord_date, name, descr, vendor, gst, ship, total, rcv_date, oid=None, _id=None, items=[]):
         self.ord_date = ord_date
-        self.pid = pid
-        self.prod_descr = prod_descr
-        self.size = size
+        self.name = name
+        self.descr = descr
         self.vendor = vendor
-        self.qty = int(qty)
-        self.u_price = float(u_price)
         self.gst = float(gst)
         self.ship = float(ship)
         self.total = float(total)
         self.rcv_date = rcv_date
         self.oid = oid if oid else Order.set_oid()
         self._id = _id if _id else Order.create_id()
-        self.sku = sku
+        self.items = items
 
     def json(self):
         return {
             'ord_date': self.ord_date,
-            'pid': self.pid,
-            'prod_descr': self.prod_descr,
-            'size': self.size,
+            'name': self.name,
+            'descr': self.descr,
             'vendor': self.vendor,
-            'qty': self.qty,
-            'u_price': self.u_price,
             'gst': self.gst,
             'ship': self.ship,
             'total': self.total,
             'rcv_date': self.rcv_date,
             'oid': self.oid,
             '_id': self._id,
-            'sku': self.sku
+            'items': self.items
         }
 
     def save_to_mongo(self):
@@ -82,4 +76,26 @@ class Order(object):
 
     def del_order(self):
         Database.remove(OrderConstants.COLLECTION, {'_id': self._id})
+
+    @staticmethod
+    def get_item_for_order(_id, item_id):
+        order_obj = Order.get_ord_by_id(_id)
+        for item in order_obj.items:
+            if item['item_id'] == item_id:
+                return item
+
+    # @staticmethod
+    # def get_item_index_by_item_id(order, item_id):
+    #     for index, item in enumerate(order.items):
+    #         if item['item_id'] == item_id:
+    #             return index
+
+    @staticmethod
+    def update_item(_id, item_id, item_dict):
+        order = Order.get_ord_by_id(_id)
+        index = [order.items.index(x) for x in order.items if x['item_id'] == item_id][0]
+        order.items[index] = item_dict
+        order.save_to_mongo()
+
+
 
