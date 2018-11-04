@@ -6,7 +6,7 @@
 {% endif %}
 
 <div class="jumbotron">
-    <h2>Order</h2>
+    <h2>Purchases</h2>
 
     <button style="margin: 10px;" type="button" class="btn btn-info" data-toggle="collapse" data-target="#add">Add New</button>
 
@@ -23,7 +23,6 @@
                 <label style="text-align: left; width:15%" class="control-label col-sm-2" for="name">Product Name</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="name" id="name" placeholder="Name" required>
-
                 </div>
             </div>
 
@@ -34,15 +33,12 @@
                 </div>
             </div>
 
-
             <div class="form-group">
                 <label style="text-align: left; width:15%" class="control-label col-sm-2" for="vendor">Vendor</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="vendor" id="vendor" placeholder="Vendor" required>
                 </div>
             </div>
-
-
 
             <div class="form-group">
                 <label style="text-align: left; width:15%" class="control-label col-sm-2" for="gst">GST</label>
@@ -58,7 +54,6 @@
                 </div>
             </div>
 
-
             <div class="form-group">
                 <label style="text-align: left; width:15%" class="control-label col-sm-2" for="total">Total</label>
                 <div class="col-sm-10">
@@ -67,12 +62,11 @@
             </div>
 
             <div class="form-group">
-                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="rcv_date">Recived Date</label>
+                <label style="text-align: left; width:15%" class="control-label col-sm-2" for="rcv_date">Received Date</label>
                 <div class="col-sm-10">
                     <input type="date" class="form-control" name="rcv_date" id="rcv_date" placeholder="DD/MM/YYYY">
                 </div>
             </div>
-
 
             <div class="form-group">
                 <div class="col-sm-offset-2 col-sm-10">
@@ -89,10 +83,10 @@
     <table class="table table-striped" id="order_table">
         <thead></thead>
         <th>S No</th>
-        <th>Order ID</th>
+        <th>Purchase ID</th>
         <th>Order Date</th>
         <th>Product</th>
-        <th>Ord Descr</th>
+        <th>Description</th>
         <th>Vendor</th>
         <th>GST</th>
         <th>Shipping</th>
@@ -117,7 +111,6 @@
         {% endfor %}
         </tbody>
     </table>
-
 
     <script>
 
@@ -158,7 +151,6 @@
 }
 </script>
 </div>
-
 
 {% endblock %}
 
