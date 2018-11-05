@@ -88,7 +88,7 @@
 
     </div>
 
-    
+
     <input type="text" id="expSearchInput" onkeyup="expSearchFunction()" placeholder="Filter.." title="Type in a name">
 
     <table class="table table-striped" id="expense_table">
@@ -145,7 +145,7 @@ function expSearchFunction() {
         td3 = tr[i].getElementsByTagName("td")[3];
         if (td1)
         {
-        if (td1.innerHTML.toUpperCase().indexOf(filter) > -1)
+        if (td1.innerText.toUpperCase().indexOf(filter) > -1)
             {
             tr[i].style.display = "";
             }
