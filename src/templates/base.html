@@ -200,6 +200,12 @@
                 {% if user and user.allowed('admin') %}
                 <li><a href="{{ url_for('settings.settings') }}">Settings</a></li>
                 {% endif %}
+                {% if user and user.allowed('admin') %}
+                <li><a href="{{ url_for('investor.investor') }}">Investor</a></li>
+                {% endif %}
+                {% if user and user.allowed('admin') %}
+                <li><a href="{{ url_for('shopify.shopify') }}">Shopify</a></li>
+                {% endif %}
 
             </ul>
             {% if not session['email']%}

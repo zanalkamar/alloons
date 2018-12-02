@@ -1,0 +1,27 @@
+{% extends 'base.html'%}
+{% block content %}
+
+{% if error_msg %}
+<p class="text-danger">ERROR EMSSAGE</p>
+{% endif %}
+
+<div class="jumbotron">
+    <h2>Shopify</h2> </div>
+
+
+
+    <table class="table table-striped" id="shopify_table">
+        <thead></thead>
+        <th>S No</th>
+        <th>ord Id</th>
+        <tbody>
+        {% for shop in shopify %}
+        <tr class="success">
+            <td>{{ loop.revindex }}</td>
+            <td>{{ shop.name }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

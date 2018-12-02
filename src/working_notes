@@ -135,6 +135,58 @@ Database.initialize()
 
 s_list = Expense.set_sno()
 
+#### uploading the shopify ###
+
+my_str = '''name, email, financial_status, paid_at, fulfillment_status, fulfilled_at, accepts_marketing,
+                 currency, subtotal, shipping, taxes, total, discount_code, discount_amount, shipping_method,
+                 created_at, lineitem_quantity, lineitem_name, lineitem_price, lineitem_compare_at_price, lineitem_sku,
+                 lineitem_requires_shipping, lineitem_taxable, lineitem_fulfillment_status, billing_name,
+                 billing_street, billing_address, billing_address2, billing_company, billing_city, billing_zip,
+                 billing_province, billing_country, billing_phone, shipping_name, shipping_street, shipping_address1,
+                 shipping_address2, shipping_company, shipping_city, shipping_zip, shipping_province,
+                 shipping_country, shipping_phone, notes, note_attributes, cancelled_at, payment_method,
+                 payment_reference, refunded_amount, vendor, id, tags, risk_level, source, lineitem_discount,
+                 tax_1_name, tax_1_value, tax_2_name, tax_2_value, tax_3_name, tax_3_value, tax_4_name, tax_4_value,
+                 tax_5_name, tax_5_value, phone, _id'''
+
+shop_list = ['Name', 'Email', 'Financial Status', 'Paid at', 'Fulfillment Status', 'Fulfilled at', 'Accepts Marketing', 'Currency', 'Subtotal', 'Shipping', 'Taxes', 'Total', 'Discount Code', 'Discount Amount', 'Shipping Method', 'Created at', 'Lineitem quantity', 'Lineitem name', 'Lineitem price', 'Lineitem compare at price', 'Lineitem sku', 'Lineitem requires shipping', 'Lineitem taxable', 'Lineitem fulfillment status', 'Billing Name', 'Billing Street', 'Billing Address1', 'Billing Address2', 'Billing Company', 'Billing City', 'Billing Zip', 'Billing Province', 'Billing Country', 'Billing Phone', 'Shipping Name', 'Shipping Street', 'Shipping Address1', 'Shipping Address2', 'Shipping Company', 'Shipping City', 'Shipping Zip', 'Shipping Province', 'Shipping Country', 'Shipping Phone', 'Notes', 'Note Attributes', 'Cancelled at', 'Payment Method', 'Payment Reference', 'Refunded Amount', 'Vendor', 'Id', 'Tags', 'Risk Level', 'Source', 'Lineitem discount', 'Tax 1 Name', 'Tax 1 Value', 'Tax 2 Name', 'Tax 2 Value', 'Tax 3 Name', 'Tax 3 Value', 'Tax 4 Name', 'Tax 4 Value', 'Tax 5 Name', 'Tax 5 Value', 'Phone', '_id']
+
+list1 = my_str.split(',')
+list1 = [x.strip('\n') for x in list1]
+list1 = [x.strip() for x in list1]
+
+shop_list = ['Name', 'Email', 'Financial Status', 'Paid at', 'Fulfillment Status', 'Fulfilled at', 'Accepts Marketing', 'Currency', 'Subtotal', 'Shipping', 'Taxes', 'Total', 'Discount Code', 'Discount Amount', 'Shipping Method', 'Created at', 'Lineitem quantity', 'Lineitem name', 'Lineitem price', 'Lineitem compare at price', 'Lineitem sku', 'Lineitem requires shipping', 'Lineitem taxable', 'Lineitem fulfillment status', 'Billing Name', 'Billing Street', 'Billing Address1', 'Billing Address2', 'Billing Company', 'Billing City', 'Billing Zip', 'Billing Province', 'Billing Country', 'Billing Phone', 'Shipping Name', 'Shipping Street', 'Shipping Address1', 'Shipping Address2', 'Shipping Company', 'Shipping City', 'Shipping Zip', 'Shipping Province', 'Shipping Country', 'Shipping Phone', 'Notes', 'Note Attributes', 'Cancelled at', 'Payment Method', 'Payment Reference', 'Refunded Amount', 'Vendor', 'Id', 'Tags', 'Risk Level', 'Source', 'Lineitem discount', 'Tax 1 Name', 'Tax 1 Value', 'Tax 2 Name', 'Tax 2 Value', 'Tax 3 Name', 'Tax 3 Value', 'Tax 4 Name', 'Tax 4 Value', 'Tax 5 Name', 'Tax 5 Value', 'Phone']
+
+st = ''
+for i in shop_list:
+	st += f"row['{i}'],"
+
+
+##### Total For an investor #####
+
+sku_list = ['GLJ0GZAM-092018' , 'GLJOGZM0918', 'WGJOGZM0918']
+
+from src.common.database import Database
+Database.initialize()
+
+from src.models.shopify_order.shopify_order import Shopifyorder
+tot_list = Shopifyorder.get_by_sku_list(sku_list)
+
+tot_sum = 0
+tot_qty = 0
+for i in tot_list:
+	if i.financial_status == 'paid' and i.fulfillment_status == 'fulfilled' and not i.tags:
+		sum = i.lineitem_price * i.lineitem_quantity
+		tot_sum += sum
+		tot_qty += i.lineitem_quantity
+
+print(f'Total Sum is {tot_sum}')
+print(f'Total quantity sold is {tot_qty}')
+
+
+
+
+
 
 
 
