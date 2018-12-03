@@ -183,6 +183,34 @@ for i in tot_list:
 print(f'Total Sum is {tot_sum}')
 print(f'Total quantity sold is {tot_qty}')
 
+##### Testing the Expense in the week ####
+
+from src.common.database import Database
+Database.initialize()
+from src.models.expense.expense import Expense
+#this_month = Expense.get_exp_predefined('this_month')
+this_month = Expense.get_exp_amount_for_interval('this_month')
+last_month = Expense.get_exp_amount_for_interval('last_month')
+
+#### Converting Previous entries in Alloons ####
+
+
+export PYTHONPATH=/var/www/html/alloons
+/var/www/html/alloons/venv/bin/python3
+from src.common.database import Database
+Database.initialize()
+from datetime import datetime
+from src.models.expense.expense import Expense
+all_expense = Expense.get_all_expense()
+for expense in all_expense:
+    if isinstance(expense.date, str):
+        expense.date = datetime.strptime(expense.date, '%Y-%m-%d')
+        expense.save_to_mongo()
+    if isinstance(expense.amount, str):
+        print('Danger')
+
+
+
 
 
 

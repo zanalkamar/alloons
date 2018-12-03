@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request, send_file, redirect, url_for, session, make_response
 from src.models.users.users import User
 from src.models.expense.expense import Expense
+from datetime import datetime
 
 
 expense_blueprint = Blueprint('expense', __name__)
@@ -14,7 +15,7 @@ def expense():
         return render_template('users/login.html')
 
     if request.method == 'POST':
-        date = request.form['date']
+        date = datetime.strptime(request.form['date'], '%Y-%m-%d')
         category = request.form['category']
         item = request.form['item']
         remarks = request.form['remarks']
@@ -22,10 +23,12 @@ def expense():
         exp_obj = Expense(date, category, item, remarks, cost)
         exp_obj.save_to_mongo()
 
-    expenses = Expense.get_all_expense()#
+    expenses = Expense.get_all_expense()  #
+    sum_dict = Expense.get_sum_dict()
+
     user = User.find_by_email(session.get('email'))
 
-    return render_template('expense/expense.html', expenses=expenses, error_msg=error_msg, user=user)
+    return render_template('expense/expense.html', expenses=expenses, error_msg=error_msg, user=user, sum_dict=sum_dict)
 
 
 @expense_blueprint.route('/edit/<string:_id>', methods={'GET', 'POST'})

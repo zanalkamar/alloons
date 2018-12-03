@@ -2,6 +2,7 @@ import src.models.expense.constants as ExpenseConstants
 from src.common.database import Database
 import uuid
 from src.models.users.users import User
+from src.models.time.date_time import DateTime
 
 
 class Expense(object):
@@ -68,6 +69,40 @@ class Expense(object):
     def check_user_access(email, access_level):
         if email:
             return User.check_access_email(email, access_level)
+
+    @classmethod
+    def get_exp_in_interval(cls, start, end):
+        query = {'date': {'$gte': start, '$lt': end}}
+        return [cls(**elem) for elem in Database.find(ExpenseConstants.COLLECTION, query)]
+
+    @staticmethod
+    def get_exp_predefined(duration):
+        if duration == 'this_week':
+            start, end = DateTime.this_week()
+        elif duration == 'this_month':
+            start, end = DateTime.this_month()
+        elif duration == 'last_month':
+            start, end = DateTime.last_month()
+        elif duration == 'this_year':
+            start, end = DateTime.this_year()
+        return Expense.get_exp_in_interval(start, end)
+
+    @staticmethod
+    def get_sum_for_interval(duration):
+        exp_list = Expense.get_exp_predefined(duration)
+        return sum([x.amount for x in exp_list])
+
+    @staticmethod
+    def get_sum_dict():
+        this_month = Expense.get_sum_for_interval('this_month')
+        last_month = Expense.get_sum_for_interval('last_month')
+        this_year = Expense.get_sum_for_interval('this_year')
+        return {'this_month': this_month, 'last_month': last_month, 'this_year': this_year}
+
+
+
+
+
 
 
 

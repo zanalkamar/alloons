@@ -7,6 +7,18 @@
 
 <div class="jumbotron">
     <h2>Expense</h2>
+    <table class="table">
+        <thead>
+        <th>This Month</th>
+        <th>Last Month</th>
+        <th>This year</th>
+        </thead>
+        <tbody>
+        <td>{{ sum_dict.this_month }}</td>
+        <td>{{ sum_dict.last_month }}</td>
+        <td>{{ sum_dict.this_year }}</td>
+        </tbody>
+    </table></h3>
 
     <button style="margin: 10px;" type="button" class="btn btn-info" data-toggle="collapse" data-target="#add">Add New</button>
 
@@ -104,7 +116,7 @@
         <tr class="success">
             <td>{{ loop.revindex }}</td>
             <td><a href="{{ url_for('expense.expense_edit', _id = expense._id)}}" role="button">{{ expense.sn }}</a></td>
-            <td>{{ expense.date }}</td>
+            <td>{{ expense.date.strftime('%Y-%m-%d') }}</td>
             <td>{{ expense.category }}</td>
             <td>{{ expense.item }}</td>
             <td>{{ expense.amount}}</td>

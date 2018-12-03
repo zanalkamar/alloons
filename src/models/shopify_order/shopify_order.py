@@ -86,7 +86,7 @@ class Shopifyorder(object):
         self.tax_5_name = tax_5_name
         self.tax_5_value = tax_5_value
         self.phone = phone
-        self.miss_fill = miss_fill
+        self.miss_fill = miss_fill  # help to fill the missing information
         self._id = Shopifyorder.get_id(name, lineitem_name)
 
     def json(self):
