@@ -209,6 +209,14 @@ for expense in all_expense:
     if isinstance(expense.amount, str):
         print('Danger')
 
+##### Server upgrade script #####
+
+git pull
+sudo restart uwsgi_alloons
+
+#### Upload limit issue on shopify uploads ####
+
+# https://serverfault.com/questions/814767/413-request-entity-too-large-in-nginx-with-client-max-body-size-set
 
 
 
