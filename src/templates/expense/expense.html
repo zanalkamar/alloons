@@ -14,9 +14,9 @@
         <th>This year</th>
         </thead>
         <tbody>
-        <td>{{ sum_dict.this_month }}</td>
-        <td>{{ sum_dict.last_month }}</td>
-        <td>{{ sum_dict.this_year }}</td>
+        <td>{{ '%0.2f' | format(sum_dict.this_month) }}</td>
+        <td>{{ '%0.2f' | format(sum_dict.last_month) }}</td>
+        <td>{{ '%0.2f' | format(sum_dict.this_year) }}</td>
         </tbody>
     </table></h3>
 
