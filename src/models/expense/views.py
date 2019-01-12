@@ -38,7 +38,8 @@ def expense_edit(_id):
         expense = Expense.get_exp_by_id(_id)
         return render_template('expense/edit.html', expense=expense, user=user)
     else:
-        date = request.form['date']
+        # date = request.form['date']
+        date = datetime.strptime(request.form['date'], '%Y-%m-%d')
         # category = request.form['category']
         item = request.form['item']
         remarks = request.form['remarks']
