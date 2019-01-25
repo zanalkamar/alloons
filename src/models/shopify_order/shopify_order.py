@@ -86,6 +86,7 @@ class Shopifyorder(object):
         self.tax_5_name = tax_5_name
         self.tax_5_value = tax_5_value
         self.phone = phone
+        # self.shipping_company = shipping_company
         self.miss_fill = miss_fill  # help to fill the missing information
         self._id = Shopifyorder.get_id(name, lineitem_name)
 
@@ -200,7 +201,16 @@ class Shopifyorder(object):
 
     @classmethod
     def get_by_name(cls, name):
-        return [cls(**elem) for elem in Database.find(ShopifyConstants.COLLECTION, {'name': name})]
+        # print(name)
+        try:
+            return cls(**Database.find_one(ShopifyConstants.COLLECTION, {'name': name}))
+        except TypeError:
+            print('Found Type error on {}'.format(name))
+
+
+    # @classmethod
+    # def get_one_by_name(cls, name):
+    #     return [cls(**elem) for elem in Database.find_one(ShopifyConstants.COLLECTION, {'name': name})]
 
     @classmethod
     def fill_missing_in_order(cls, order_list):
