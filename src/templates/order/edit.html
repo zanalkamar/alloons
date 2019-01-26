@@ -1,10 +1,121 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html'%}
+{% block content %}
+<h2>Edit Purchase for ID: {{ order.oid }}</h2>
 
-</body>
-</html>
+<div class="jumbotron" style="width: 80%; margin: auto;">
+    {% if error_msg %}
+    <p class="text-danger">ERROR EMSSAGE</p>
+    {% endif %}
+
+    <form class="form-horizontal" action="{{ url_for('order.order_edit', _id=order._id)}}" method="post">
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="ord_date">Date:</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" name="ord_date" id="ord_date" placeholder="DD/MM/YYYY" required value="{{ order.ord_date }}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="name">Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="name" id="name" placeholder="Order NAme" required value="{{ order.name }}">
+
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="descr">Description</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="descr" id="descr" placeholder="Order Description" value="{{ order.descr }}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="vendor">Vendor</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="vendor" id="vendor" placeholder="Vendor" required value="{{ order.vendor }}">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="gst">GST</label>
+            <div class="col-sm-10">
+                <input type="number" step="0.01" class="form-control" name="gst" id="gst" placeholder="GST" required value="{{ order.gst }}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="ship">Shipping Cost</label>
+            <div class="col-sm-10">
+                <input type="number" step="0.01" class="form-control" name="ship" id="ship" placeholder="Shipping Cost" required value="{{ order.ship }}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="total">Total</label>
+            <div class="col-sm-10">
+                <input type="number" step="0.01" class="form-control" name="total" id="total" placeholder="Total" required value="{{ order.total }}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="rcv_date">Recived Date</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" name="rcv_date" id="rcv_date" placeholder="DD/MM/YYYY" value="{{ order.rcv_date }}">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+            <div>
+                <a class="btn btn-danger" href="{{ url_for('order.del_order', _id = order._id)}}" >Del Ord</a>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<div style="padding: 20px">
+
+    <table style="width: 90%; margin: 20px" class="table">
+
+        {% if items %}
+
+        <h2>Items</h2>
+
+        <tr>
+            <th>S no</th>
+            <th>Product ID</th>
+            <th>Unit Price</th>
+            <th>Quantity</th>
+            <th>SKU</th>
+            <th>Item Total</th>
+            <th>Receive Date</th>
+            <th>Action</th>
+        </tr>
+
+        {% for item in items %}
+
+        <tr>
+            <td>{{loop.index}}</td>
+            <td>{{item['pid']}}</td>
+            <td>{{item['u_price']}}</td>
+            <td>{{item['qty']}}</td>
+            <td>{{item['sku']}}</td>
+            <td>{{item['item_total']}}</td>
+            <td>{{item['rcv_date']}}</td>
+            <td><a class="btn btn-default" role="button" href="{{ url_for('order.edit_item', _id=order._id, item_id=item['item_id'])}}" >Edit</a></td>
+        </tr>
+
+        {% endfor %}
+
+        {% endif %}
+
+    </table>
+</div>
+
+{% endblock %}

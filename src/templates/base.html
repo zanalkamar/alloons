@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
-    <!--<meta name="viewport" content="width=device-width, initial-scale=1">-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!--<meta http-equiv="refresh" content="60"/>-->
     <title>Alloons</title>
     {% include 'html_dependencies.html'%}
     <style>
@@ -186,17 +184,28 @@
             {% if not session['email'] %}
             <a class="navbar-brand" href="/">Alloons</a>
             {% else %}
-            <a class="navbar-brand" href="#">Alloons</a>
+            <a class="navbar-brand" href="/">Alloons</a>
             {% endif %}
         </div>
         <div class="collapse navbar-collapse" id="navbar">
             <ul class="nav navbar-nav">
+                {% if user and user.allowed('admin') %}
                 <li><a href="{{ url_for('expense.expense') }}">Expense</a></li>
-                <li><a href="{{ url_for('order.order') }}">Orders</a></li>
+                {% endif %}
 
+                {% if user and user.allowed('admin') %}
+                <li><a href="{{ url_for('order.order') }}">Purchases</a></li>
+                {% endif %}
 
+                {% if user and user.allowed('admin') %}
                 <li><a href="{{ url_for('settings.settings') }}">Settings</a></li>
-
+                {% endif %}
+                {% if user and user.allowed('admin') %}
+                <li><a href="{{ url_for('investor.investor') }}">Investor</a></li>
+                {% endif %}
+                {% if user and user.allowed('admin') %}
+                <li><a href="{{ url_for('shopify.shopify') }}">Shopify</a></li>
+                {% endif %}
 
             </ul>
             {% if not session['email']%}

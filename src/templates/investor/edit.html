@@ -1,0 +1,84 @@
+{% extends 'base.html'%}
+{% block content %}
+<h2>Investor Edit</h2>
+<h3>{{ investor.name }}</h3>
+<div class="jumbotron" style="width: 80%; margin: auto; padding:20px;">
+    {% if error_msg %}
+    <p class="text-danger">ERROR EMSSAGE</p>
+    {% endif %}
+
+
+    <form class="form-horizontal" action="{{ url_for('investor.investor_edit', _id=investor._id)}}" method="post">
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="sku">SKU</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="sku" id="sku" placeholder="SKU" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="sku_descr">SKU Description</label>
+            <div class="col-sm-10">
+                <input type="text"  class="form-control" name="sku_descr" id="sku_descr" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="sku_amount">Investment Amount</label>
+            <div class="col-sm-10">
+                <input type="number"  class="form-control" name="sku_amount" id="sku_amount" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="sku_num">SKU qnty</label>
+            <div class="col-sm-10">
+                <input type="number"  class="form-control" name="sku_num" id="sku_num" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label style="text-align: left; width:15%" class="control-label col-sm-2" for="inv_date">Investment Date</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" name="inv_date" id="inv_date" placeholder="DD/MM/YYYY" required>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+<table class="table table-striped" id="investment_table" style="width: 80%; margin:auto; padding:20px;">
+    <thead></thead>
+    <th>S No</th>
+    <th>SKU</th>
+    <th>SKU quantity</th>
+    <th>Invested Amount</th>
+    <tbody>
+    {% for sku in investor.sku_dict %}
+    <tr class="success">
+        <td>{{loop.index}}</td>
+        <td>{{ sku }}</td>
+        <td>{{ investor.sku_dict[sku]['number'] }}</td>
+        <td>{{ investor.sku_dict[sku]['amount'] }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<div class="container-fluid" style="padding:20px">
+
+            <div>
+                <a class="btn btn-danger" href="{{ url_for('investor.del_investor', _id = investor._id)}}" >Del Investor</a>
+            </div>
+
+    </div>
+
+
+{% endblock %}

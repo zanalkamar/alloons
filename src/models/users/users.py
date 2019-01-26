@@ -29,7 +29,7 @@ class User(object):
     def login_user(email, password):
         # provision for the root_user add encryption for the root user here
         # else put this in a config file. but figure out a way of upgrade without a complete docker exchange
-        if email == 'hynsyt_root' and password == 'hynsyt':
+        if email == 'alloons_root' and password == 'hbF_ig034':
             return True
         else:
             user_data = Database.find_one(UserConstants.COLLECTION, {'email': email})
@@ -63,7 +63,7 @@ class User(object):
         return cls(**Database.find_one(UserConstants.COLLECTION, {'_id':_id}))
 
     def is_admin(self):
-        # returns true if the self user access is 2
+        # returns true if the self user access is 2 or above
         # bypass for the root user
         return self.access == UserConstants.ACCESS['admin']
 

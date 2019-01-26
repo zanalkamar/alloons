@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1>File Upload and download</h1>
+<form action="{{ url_for('files.upload_shopify')}}" method="post" enctype="multipart/form-data">
+    <p><input type="file" name="file"></p>
+    <p><input type="submit" value="Upload"></p>
+</form>
+
+<h1>Ecom File Upload and download</h1>
+<form action="{{ url_for('files.upload_ecom')}}" method="post" enctype="multipart/form-data">
+    <p><input type="file" name="file"></p>
+    <p><input type="submit" value="Upload"></p>
+</form>
+
+
+{% for file in files %}
+<p>{{file.name}}</p>
+{% endfor %}
+{% endblock %}
