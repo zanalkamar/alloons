@@ -11,14 +11,8 @@ class Shopifyorder(object):
     def __init__(self, name, email, financial_status, paid_at, fulfillment_status, fulfilled_at, accepts_marketing,
                  currency, subtotal, shipping, taxes, total, discount_code, discount_amount, shipping_method,
                  created_at, lineitem_quantity, lineitem_name, lineitem_price, lineitem_compare_at_price, lineitem_sku,
-                 lineitem_requires_shipping, lineitem_taxable, lineitem_fulfillment_status, billing_name,
-                 billing_street, billing_address, billing_address2, billing_company, billing_city, billing_zip,
-                 billing_province, billing_country, billing_phone, shipping_name, shipping_street, shipping_address1,
-                 shipping_address2, shipping_company, shipping_city, shipping_zip, shipping_province,
-                 shipping_country, shipping_phone, notes, note_attributes, cancelled_at, payment_method,
-                 payment_reference, refunded_amount, vendor, id, tags, risk_level, source, lineitem_discount,
-                 tax_1_name, tax_1_value, tax_2_name, tax_2_value, tax_3_name, tax_3_value, tax_4_name, tax_4_value,
-                 tax_5_name, tax_5_value, phone, miss_fill=None, _id=None):
+                 lineitem_requires_shipping, lineitem_taxable, lineitem_fulfillment_status, shipping_company, notes, note_attributes, cancelled_at, payment_method,
+                 payment_reference, refunded_amount, vendor, id, tags, lineitem_discount, miss_fill=None, _id=None, shipping_cost=None):
         self.name = name
         self.email = email
         self.financial_status = financial_status
@@ -43,26 +37,7 @@ class Shopifyorder(object):
         self.lineitem_requires_shipping = lineitem_requires_shipping
         self.lineitem_taxable = lineitem_taxable
         self.lineitem_fulfillment_status = lineitem_fulfillment_status
-        self.billing_name = billing_name
-        self.billing_street = billing_street
-        self.billing_address = billing_address
-        self.billing_address2 = billing_address2
-        self.billing_company = billing_company
-        self.billing_city = billing_city
-        self.billing_zip = billing_zip
-        self.billing_province = billing_province
-        self.billing_country = billing_country
-        self.billing_phone = billing_phone
-        self.shipping_name = shipping_name
-        self.shipping_street = shipping_street
-        self.shipping_address1 = shipping_address1
-        self.shipping_address2 = shipping_address2
         self.shipping_company = shipping_company
-        self.shipping_city = shipping_city
-        self.shipping_zip = shipping_zip
-        self.shipping_province = shipping_province
-        self.shipping_country = shipping_country
-        self.shipping_phone = shipping_phone
         self.notes = notes
         self.note_attributes = note_attributes
         self.cancelled_at = cancelled_at
@@ -72,23 +47,11 @@ class Shopifyorder(object):
         self.vendor = vendor
         self.id = id
         self.tags = tags
-        self.risk_level = risk_level
-        self.source = source
         self.lineitem_discount = lineitem_discount
-        self.tax_1_name = tax_1_name
-        self.tax_1_value = tax_1_value
-        self.tax_2_name = tax_2_name
-        self.tax_2_value = tax_2_value
-        self.tax_3_name = tax_3_name
-        self.tax_3_value = tax_3_value
-        self.tax_4_name = tax_4_name
-        self.tax_4_value = tax_4_value
-        self.tax_5_name = tax_5_name
-        self.tax_5_value = tax_5_value
-        self.phone = phone
         # self.shipping_company = shipping_company
         self.miss_fill = miss_fill  # help to fill the missing information
         self._id = Shopifyorder.get_id(name, lineitem_name)
+        self.shipping_cost = shipping_cost
 
     def json(self):
         return {
@@ -116,26 +79,7 @@ class Shopifyorder(object):
             'lineitem_requires_shipping': self.lineitem_requires_shipping,
             'lineitem_taxable': self.lineitem_taxable,
             'lineitem_fulfillment_status': self.lineitem_fulfillment_status,
-            'billing_name': self.billing_name,
-            'billing_street': self.billing_street,
-            'billing_address': self.billing_address,
-            'billing_address2': self.billing_address2,
-            'billing_company': self.billing_company,
-            'billing_city': self.billing_city,
-            'billing_zip': self.billing_zip,
-            'billing_province': self.billing_province,
-            'billing_country': self.billing_country,
-            'billing_phone': self.billing_phone,
-            'shipping_name': self.shipping_name,
-            'shipping_street': self.shipping_street,
-            'shipping_address1': self.shipping_address1,
-            'shipping_address2': self.shipping_address2,
             'shipping_company': self.shipping_company,
-            'shipping_city': self.shipping_city,
-            'shipping_zip': self.shipping_zip,
-            'shipping_province': self.shipping_province,
-            'shipping_country': self.shipping_country,
-            'shipping_phone': self.shipping_phone,
             'notes': self.notes,
             'note_attributes': self.note_attributes,
             'cancelled_at': self.cancelled_at,
@@ -145,22 +89,10 @@ class Shopifyorder(object):
             'vendor': self.vendor,
             'id': self.id,
             'tags': self.tags,
-            'risk_level': self.risk_level,
-            'source': self.source,
             'lineitem_discount': self.lineitem_discount,
-            'tax_1_name': self.tax_1_name,
-            'tax_1_value': self.tax_1_value,
-            'tax_2_name': self.tax_2_name,
-            'tax_2_value': self.tax_2_value,
-            'tax_3_name': self.tax_3_name,
-            'tax_3_value': self.tax_3_value,
-            'tax_4_name': self.tax_4_name,
-            'tax_4_value': self.tax_4_value,
-            'tax_5_name': self.tax_5_name,
-            'tax_5_value': self.tax_5_value,
-            'phone': self.phone,
             '_id': self._id,
-            'miss_fill': self.miss_fill
+            'miss_fill': self.miss_fill,
+            'shipping_cost': self.shipping_cost
         }
 
     def save_to_mongo(self):
@@ -173,6 +105,8 @@ class Shopifyorder(object):
                 return float(value)
             elif int_type == 'int':
                 return int(value)
+        else:
+            return 0
 
     @staticmethod
     def get_id(name, lineitem_name):
@@ -190,7 +124,7 @@ class Shopifyorder(object):
         repeats = [item for item, count in collections.Counter(order_ids).items() if count > 1]
         # print(f'Found repeats in {repeats}')
         for name in repeats:
-            same_order = Shopifyorder.get_by_name(name)
+            same_order = Shopifyorder.get_list_by_name(name)
             # for order in same_order:
             #     print(order.subtotal)
             Shopifyorder.fill_missing_in_order(same_order)
@@ -207,10 +141,9 @@ class Shopifyorder(object):
         except TypeError:
             print('Found Type error on {}'.format(name))
 
-
-    # @classmethod
-    # def get_one_by_name(cls, name):
-    #     return [cls(**elem) for elem in Database.find_one(ShopifyConstants.COLLECTION, {'name': name})]
+    @classmethod
+    def get_list_by_name(cls, name):
+        return [cls(**elem) for elem in Database.find(ShopifyConstants.COLLECTION, {'name': name})]
 
     @classmethod
     def fill_missing_in_order(cls, order_list):

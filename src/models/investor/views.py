@@ -42,7 +42,8 @@ def investor_edit(_id):
         # this num should be changed to quantity
         sku_date = request.form['inv_date']
         inv = Investor.get_investor_by_id(_id)
-        inv.sku_dict[sku] = dict(amount=int(sku_amount), number=int(sku_num))
+        # inv.sku_dict[sku] = dict(amount=int(sku_amount), number=int(sku_num))
+
         inv.save_to_mongo()
     return redirect(url_for('investor.investor'))
 
